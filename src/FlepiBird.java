@@ -49,24 +49,29 @@ public class FlepiBird extends JFrame {
 
 class MainMenuPanel extends JPanel {
     public MainMenuPanel(FlepiBird frame) {
-        setPreferredSize(new Dimension(1920, 1080));
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screen.width;
+        int screenHeight = screen.height;
+        setPreferredSize(screen);
+
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.ORANGE);
         setLayout(null);
 
         JLabel title = new JLabel("FLEPIBIRD");
         title.setFont(new Font("Arial", Font.BOLD, 100));
-        title.setBounds(600, 200, 600, 100);
+        title.setBounds(screenWidth / 2 - 300, screenHeight / 2 - 200, 600, 100);
         add(title);
 
         JButton startButton = new JButton("Mulai");
         startButton.setFont(new Font("Arial", Font.BOLD, 40));
-        startButton.setBounds(750, 400, 250, 80);
+        startButton.setBounds(screenWidth / 2 - 125, screenHeight / 2, 250, 80);
         startButton.addActionListener(e -> frame.showGame());
         add(startButton);
 
         JButton helpButton = new JButton("Petunjuk");
         helpButton.setFont(new Font("Arial", Font.BOLD, 40));
-        helpButton.setBounds(750, 500, 250, 80);
+        helpButton.setBounds(screenWidth / 2 - 125, screenHeight / 2 + 100, 250, 80);
         helpButton.addActionListener(e -> JOptionPane.showMessageDialog(this,
                 "Tekan SPASI untuk melompat\nTekan R untuk mengulang saat Game Over",
                 "Petunjuk", JOptionPane.INFORMATION_MESSAGE));
@@ -74,15 +79,16 @@ class MainMenuPanel extends JPanel {
 
         JButton exitButton = new JButton("Keluar");
         exitButton.setFont(new Font("Arial", Font.BOLD, 40));
-        exitButton.setBounds(750, 600, 250, 80);
+        exitButton.setBounds(screenWidth / 2 - 125, screenHeight / 2 + 200, 250, 80);
         exitButton.addActionListener(e -> System.exit(0));
         add(exitButton);
     }
 }
 
 abstract class GamePanel extends JPanel implements ActionListener, KeyListener {
-    final int WIDTH = 1920;
-    final int HEIGHT = 1080;
+    final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    final int WIDTH = SCREEN_SIZE.width;
+    final int HEIGHT = SCREEN_SIZE.height;
 }
 
 class GamePanelImpl extends GamePanel {
@@ -95,9 +101,9 @@ class GamePanelImpl extends GamePanel {
     Image birdImage;
 
     ArrayList<Rectangle> pipes = new ArrayList<>();
-    int pipeSpacing = 300;
-    int pipeWidth = 100;
-    int pipeGap = 300;
+    int pipeSpacing = WIDTH / 4;
+    int pipeWidth = WIDTH / 20;
+    int pipeGap = WIDTH / 4;
     int pipeSpeed = 8;
     int score = 0;
 
